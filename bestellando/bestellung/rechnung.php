@@ -67,7 +67,7 @@ $mwst = $bestellung['gesamtpreis'] - $netto;
                         Drucken & Abschließen
                     </button>
                 </form>
-                <!--wenn status abgeschlossen-->
+                <!--wenn status abgeschlossen oder storniert-->
             <?php else: ?>
                 <button onclick="window.print()" class="btn btn-primary">Drucken</button>
                 <span class="badge bg-success ms-2">Bestellung abgeschlossen</span>

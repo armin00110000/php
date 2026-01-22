@@ -9,9 +9,9 @@ $sql = "SELECT b.*, t.tischnummer
         FROM bestellung b 
         JOIN tisch t ON b.tisch_id = t.tisch_id 
         WHERE b.bestellung_id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$bestellung_id]);
-$bestellung = $stmt->fetch();
+$cmd = $pdo->prepare($sql);
+$cmd->execute([$bestellung_id]);
+$bestellung = $cmd->fetch();
 
 if (!$bestellung || $bestellung['status'] != 'offen') {
     header("Location: bestelluebersicht.php");
@@ -20,9 +20,9 @@ if (!$bestellung || $bestellung['status'] != 'offen') {
 
 // Aktuelle Bestellpositionen laden
 $sql = "SELECT * FROM bestellposition WHERE bestellung_id = ?";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$bestellung_id]);
-$aktuelle_positionen = $stmt->fetchAll();
+$cmd = $pdo->prepare($sql);
+$cmd->execute([$bestellung_id]);
+$aktuelle_positionen = $cmd->fetchAll();
 
 // Array für schnellen Zugriff auf Anzahl pro Gericht
 $anzahl_map = [];
@@ -42,8 +42,8 @@ foreach ($gerichte as $gericht) {
 // Bestellung aktualisieren
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Alte Positionen löschen
-    $stmt = $pdo->prepare("DELETE FROM bestellposition WHERE bestellung_id = ?");
-    $stmt->execute([$bestellung_id]);
+    $cmd = $pdo->prepare("DELETE FROM bestellposition WHERE bestellung_id = ?");
+    $cmd->execute([$bestellung_id]);
     
     $gesamtpreis = 0;
     
@@ -54,16 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $gericht->execute([$gericht_id]);
             $preis = $gericht->fetchColumn();
             
-            $stmt = $pdo->prepare("INSERT INTO bestellposition (bestellung_id, gericht_id, anzahl, einzelpreis) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$bestellung_id, $gericht_id, $anzahl, $preis]);
+            $cmd = $pdo->prepare("INSERT INTO bestellposition (bestellung_id, gericht_id, anzahl, einzelpreis) VALUES (?, ?, ?, ?)");
+            $cmd->execute([$bestellung_id, $gericht_id, $anzahl, $preis]);
             
             $gesamtpreis += $preis * $anzahl;
         }
     }
     
     // Gesamtpreis aktualisieren
-    $stmt = $pdo->prepare("UPDATE bestellung SET gesamtpreis = ? WHERE bestellung_id = ?");
-    $stmt->execute([$gesamtpreis, $bestellung_id]);
+    $cmd = $pdo->prepare("UPDATE bestellung SET gesamtpreis = ? WHERE bestellung_id = ?");
+    $cmd->execute([$gesamtpreis, $bestellung_id]);
     
     header("Location: bestellung_details.php?id=" . $bestellung_id);
     exit;
