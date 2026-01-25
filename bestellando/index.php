@@ -17,6 +17,9 @@ include 'verbindung/db.php';
     <title>Bestellando</title>
 </head>
 <body>
+  <div class="text-end m-3" style="text-align: right;">
+    <a href="logout.php" class="btn btn-danger">Logout</a>
+  </div>
     <br><br><br>
     <h1 class="text-center">Willkommen bei Bestellando</h1>
     <br><br><br>

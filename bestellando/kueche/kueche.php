@@ -1,4 +1,5 @@
 <?php
+include '../auth/login_control.php';
 require_once '../verbindung/db.php';
 
 // Nur offene Bestellungen laden
@@ -19,6 +20,9 @@ $bestellungen = $pdo->query($sql)->fetchAll();
     <meta http-equiv="refresh" content="120"> <!--aktualiesiert alle 2 minuten-->
 </head>
 <body>
+    <div class="text-end m-3" style="text-align: right;">
+    <a href="../auth/logout.php" class="btn btn-danger">Logout</a>
+  </div>
     <div class="container mt-4">
         <h1>Küche - Offene Bestellungen</h1>
         <a href="../index.php" class="btn btn-secondary mb-3">← Zurück</a>
@@ -56,6 +60,7 @@ $bestellungen = $pdo->query($sql)->fetchAll();
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- Bestellpositionen durchgehen und anzeigen -->
                                     <?php foreach ($positionen as $position): ?>
                                         <tr>
                                             <td><strong><?= $position['anzahl'] ?>x</strong></td>

@@ -1,4 +1,5 @@
 <?php
+include '../auth/login_control.php'; //login kontrolle einbinden
 require_once '../verbindung/db.php';
 
 // Tische laden
@@ -55,10 +56,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tisch_id'])) {
     <title>Bestellung aufnehmen</title>
 </head>
 <body>
+    <div class="text-end m-3" style="text-align: right;">
+    <a href="../auth/logout.php" class="btn btn-danger">Logout</a>
+  </div>
     <div class="container mt-4">
         <h1>Bestellung aufnehmen</h1>
         <a href="../index.php" class="btn btn-secondary mb-3">← Zurück</a>
-        
+        <!-- Bestellformular -->
         <form method="POST">
             <div class="mb-3">
                 <label class="form-label">Tischnummer:</label>
@@ -82,6 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tisch_id'])) {
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Gerichte der Kategorie durchgehen -->
                         <?php foreach ($items as $gericht): ?>
                             <tr>
                                 <td><?= htmlspecialchars($gericht['name']) ?></td>

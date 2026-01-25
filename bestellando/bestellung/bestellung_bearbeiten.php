@@ -1,4 +1,5 @@
 <?php
+include '../auth/login_control.php'; 
 require_once '../verbindung/db.php';
 
 // Bestellung ID aus URL holen
@@ -78,6 +79,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Bestellung bearbeiten</title>
 </head>
 <body>
+    <div class="text-end m-3" style="text-align: right;">
+    <a href="../auth/logout.php" class="btn btn-danger">Logout</a>
+  </div>
     <div class="container mt-4">
         <h1>Bestellung bearbeiten</h1>
         <a href="bestellung_details.php?id=<?= $bestellung_id ?>" class="btn btn-secondary mb-3">← Zurück</a>
@@ -88,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <form method="POST">
             <h3>Speisekarte</h3>
-            
+            <!-- Gerichte nach Kategorie anzeigen -->
             <?php foreach ($kategorien as $kategorie => $items): ?>
                 <h4 class="mt-4"><?= htmlspecialchars($kategorie) ?></h4>
                 <table class="table">
@@ -100,6 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </tr>
                     </thead>
                     <tbody>
+                        
                         <?php foreach ($items as $gericht): ?>
                             <tr>
                                 <td><?= htmlspecialchars($gericht['name']) ?></td>
@@ -117,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </tbody>
                 </table>
             <?php endforeach; ?>
-            
+            <!-- Formular abschicken -->
             <button type="submit" class="btn btn-success btn-lg mt-3">Änderungen speichern</button>
             <a href="bestellung_details.php?id=<?= $bestellung_id ?>" class="btn btn-secondary btn-lg mt-3">Abbrechen</a>
         </form>

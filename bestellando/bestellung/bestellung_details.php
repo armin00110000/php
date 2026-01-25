@@ -1,4 +1,5 @@
 <?php
+include '../auth/login_control.php';
 require_once '../verbindung/db.php';
 
 // Bestellung ID aus URL holen
@@ -44,6 +45,9 @@ $positionen = $cmd->fetchAll();
     <title>Bestellung Details</title>
 </head>
 <body>
+    <div class="text-end m-3" style="text-align: right;">
+    <a href="../auth/logout.php" class="btn btn-danger">Logout</a>
+  </div>
     <div class="container mt-4">
         <h1>Bestellung Details</h1>
         <a href="bestelluebersicht.php" class="btn btn-secondary mb-3">← Zurück zur Übersicht</a>
@@ -78,6 +82,7 @@ $positionen = $cmd->fetchAll();
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Bestellpositionen durchgehen und anzeigen -->
                         <?php foreach ($positionen as $position): ?>
                             <tr>
                                 <td><?= $position['anzahl'] ?>x</td>
@@ -94,12 +99,12 @@ $positionen = $cmd->fetchAll();
                         </tr>
                     </tfoot>
                 </table>
-                
+                <!-- Aktionen je nach Status -->
                 <div class="mt-4">
                     <?php if ($bestellung['status'] == 'offen'): ?>
                         <a href="bestellung_bearbeiten.php?id=<?= $bestellung['bestellung_id'] ?>" 
                            class="btn btn-warning">Bearbeiten</a>
-                        
+                        <!-- Stornieren mit Bestätigungsabfrage -->
                         <form method="POST" style="display: inline;" onsubmit="return confirm('Bestellung wirklich stornieren?')" >
                             <button type="submit" name="stornieren" class="btn btn-danger">Stornieren</button>
                         </form>

@@ -1,4 +1,5 @@
 <?php
+include '../auth/login_control.php'; //sicherstellen, dass nur angemeldete benutzer zugreifen können
 require_once '../verbindung/db.php';
 
 // Alle Bestellungen laden mit Tischinformationen
@@ -17,6 +18,9 @@ $bestellungen = $pdo->query($sql)->fetchAll();
     <title>Bestellübersicht</title>
 </head>
 <body>
+    <div class="text-end m-3" style="text-align: right;">
+    <a href="../auth/logout.php" class="btn btn-danger">Logout</a>
+  </div>
     <div class="container mt-4">
         <h1>Bestellübersicht</h1>
         <a href="../index.php" class="btn btn-secondary mb-3">← Zurück</a>
@@ -33,6 +37,7 @@ $bestellungen = $pdo->query($sql)->fetchAll();
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Bestellungen durchgehen und anzeigen -->
                     <?php foreach ($bestellungen as $bestellung): ?>
                         <tr>
                             <td><?= $bestellung['bestellung_id'] ?></td>

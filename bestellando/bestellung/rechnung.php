@@ -1,4 +1,5 @@
 <?php
+include '../auth/login_control.php';
 require_once '../verbindung/db.php';
 
 // Bestellung ID aus URL holen
@@ -56,6 +57,9 @@ $mwst = $bestellung['gesamtpreis'] - $netto;
     </style>
 </head>
 <body>
+    <div class="text-end m-3" style="text-align: right;">
+    <a href="../auth/logout.php" class="btn btn-danger">Logout</a>
+  </div>
     <div class="container mt-4">
         <div class="no-print mb-3">
             <a href="bestellung_details.php?id=<?= $bestellung_id ?>" class="btn btn-secondary">← Zurück</a>
@@ -86,7 +90,7 @@ $mwst = $bestellung['gesamtpreis'] - $netto;
                 <p class="text-center">Hauptstraße 123, 12345 Berlin</p>
                 <p class="text-center">Tel: 0123-456789</p>
                 <hr>
-                
+                <!-- Rechnungstitel und Bestellinformationen -->
                 <h3>Rechnung</h3>
                 <p><strong>Bestellung #<?= $bestellung['bestellung_id'] ?></strong></p>
                 <p><strong>Tisch:</strong> <?= $bestellung['tischnummer'] ?></p>
@@ -105,6 +109,7 @@ $mwst = $bestellung['gesamtpreis'] - $netto;
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Bestellpositionen durchgehen und anzeigen -->
                         <?php foreach ($positionen as $position): ?>
                             <tr>
                                 <td><?= $position['anzahl'] ?>x</td>
@@ -117,7 +122,7 @@ $mwst = $bestellung['gesamtpreis'] - $netto;
                 </table>
                 
                 <hr>
-                
+                <!-- Zusammenfassung der Kosten -->
                 <div class="row">
                     <div class="col text-end">
                         <p><strong>Netto:</strong> <?= number_format($netto, 2, ',', '.') ?> €</p>
